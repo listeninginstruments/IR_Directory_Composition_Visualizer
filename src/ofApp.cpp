@@ -25,6 +25,11 @@ void ofApp::setup(){
            //players[s].setPosition(ofRandom(0.0, 1.0));
            //players[s].setLoop(true);
            //players[s].play();
+           
+           colors[s].r = ofRandom(80, 255);
+           colors[s].g = ofRandom(80, 255);
+           colors[s].b = ofRandom(80, 255);
+           colors[s].a = 150;
        }
     
     
@@ -103,15 +108,24 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 
-void ofApp::drawFileForms(vector<ofMesh> wfm, float x, float y){
+void ofApp::drawFileForms(vector<ofMesh> wfm, float x, float y, ofColor c){
     
     //cout << wfm.size() << endl;
-    
+    ofSetColor(c);
     for(int i=0; i<wfm.size(); i++){ // channels - 2 for stereo
         auto & wv2 = wfm[i].getVertices();
         for(int p=0; p<wv2.size(); p++){
             // Draws results of passed on ofMesh
-           ofDrawRectangle(x + (p * 1), y, 1, wv2[p].y * 100);
+           //ofDrawRectangle(x + (p * 1), y, 1, wv2[p].y * 100);
+            
+            if(i == 0){
+                float width = wv2[p].y * 600;
+                float height = 2;
+                float xpos = x - (width/2);
+                float ypos = y + (p * height);
+                
+                ofDrawRectangle(xpos, ypos, width, height-1); //attempt at center alligned of all of the visualizers
+            }
         }
     }
 }
@@ -120,9 +134,17 @@ void ofApp::drawFileForms(vector<ofMesh> wfm, float x, float y){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-    ofSetColor(ofColor::white);
+    //ofSetColor(ofColor::white);
+    
+    ofColor rand;
+    rand.r=255;
+    rand.g=255;
+    rand.b=255;
+    rand.a = 75;
+    
     for(int s=0; s<howmany_sounds; s++){
-        drawFileForms(waves[s].getWaveFormMesh(), s*300, 300);
+        drawFileForms(waves[s].getWaveFormMesh(), (ofGetWindowWidth()/2), 100, colors[s]); // overlaps
+        //drawFileForms(waves[s].getWaveFormMesh(), (s+1) * 250, 100, colors[s]); // seperate
     }
     //drawFileForms(waves[0].getWaveFormMesh(), 0, 300);
     //drawFileForms(waves[1].getWaveFormMesh(), 400, 300);

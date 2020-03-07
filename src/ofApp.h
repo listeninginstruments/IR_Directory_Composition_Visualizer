@@ -43,11 +43,12 @@ class ofApp : public ofBaseApp{
         waveformDraw wave2;
         vector<ofMesh> waveFormMesh2;
         
-        void drawFileForms(vector<ofMesh> wfm, float x, float y);
+        void drawFileForms(vector<ofMesh> wfm, float x, float y, ofColor c);
     
         int howmany_sounds;
         ofxSoundPlayerObject players[3];
         waveformDraw waves[3];
+        ofColor colors[3];
     
         ofDirectory dir;
         string audio_path;
